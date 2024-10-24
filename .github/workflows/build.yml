@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [22]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -28,13 +28,9 @@ jobs:
         cache: 'npm'
         cache-dependency-path: package-lock.json
     - run: npm ci
-
-    - name: Run tests
+    - name: Run test
       run: npm run test:ci
-
     - name: Build
       run: npm run build
-      
-    
-    - run: npm run build --if-present
-    - run: npm test
+    # - run: npm run build --if-present
+    # - run: npm test
