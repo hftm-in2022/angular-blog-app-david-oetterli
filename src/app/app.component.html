@@ -1,5 +1,5 @@
 <div>
-  <h1>David's Blog</h1>
+  <h1 class="centered-heading">David's Blog</h1>
 
   <div class="content" *ngIf="blogs$ | async as blogs">
     @for (blog of blogs.data; track blog.id) {
