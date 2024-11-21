@@ -32,10 +32,10 @@ import { MatButton } from '@angular/material/button';
     MatCardSubtitle,
     NgStyle,
   ],
-  templateUrl: './blog.component.html',
-  styleUrl: './blog.component.scss',
+  templateUrl: './blog-list.component.html',
+  styleUrl: './blog-list.component.scss',
 })
-export class BlogComponent {
+export class BlogListComponent {
   @Input()
   blog: Blog | undefined;
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { BlogComponent } from './components/blog/blog.component';
+import { BlogListComponent } from './features/blog/components/blog-list/blog-list.component';
 import { EMPTY, Observable } from 'rxjs';
 import { Blogs } from './model/blogs';
 import { BlogService } from './services/blog.service';
@@ -9,7 +9,7 @@ import { AsyncPipe, NgIf } from '@angular/common';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, BlogComponent, AsyncPipe, NgIf],
+  imports: [RouterOutlet, BlogListComponent, AsyncPipe, NgIf],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
