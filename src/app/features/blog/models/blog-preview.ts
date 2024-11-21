@@ -1,13 +1,13 @@
-export interface Blog {
+export interface BlogPreview {
   id: number;
-  // updatedAt: Date
-  // createdAt: Date
   title: string;
   contentPreview: string;
   author: string;
+  headerImageUrl: string;
+  createdAt: string;
+  updatedAt: string;
   likes: number;
   comments: number;
   likedByMe: boolean;
   createdByMe: boolean;
-  headerImageUrl: string;
 }
