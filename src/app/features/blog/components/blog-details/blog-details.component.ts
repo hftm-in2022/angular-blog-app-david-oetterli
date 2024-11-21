@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe, NgForOf, NgStyle, CommonModule } from '@angular/common';
-import { BlogService } from '../../../../services/blog.service';
+import { BlogService } from '../../services/blog.service';
 
 @Component({
   selector: 'app-blog-details',

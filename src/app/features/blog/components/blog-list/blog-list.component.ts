@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BlogService } from '../../../../services/blog.service';
+import { BlogService } from '../../services/blog.service';
 import { MatCardModule } from '@angular/material/card';
 import { NgForOf, NgStyle, SlicePipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
