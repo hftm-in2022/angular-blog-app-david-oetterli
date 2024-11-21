@@ -1,26 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { BlogListComponent } from './features/blog/components/blog-list/blog-list.component';
-import { EMPTY, Observable } from 'rxjs';
-import { Blogs } from './model/blogs';
-import { BlogService } from './services/blog.service';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { Component } from '@angular/core';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, BlogListComponent, AsyncPipe, NgIf],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  standalone: true,
+  imports: [RouterLink, RouterLinkActive, RouterOutlet],
+  styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
-  title = 'blog-app';
-
-  blogs$: Observable<Blogs> = EMPTY;
-
-  constructor(private blogService: BlogService) {}
-
-  ngOnInit(): void {
-    this.blogs$ = this.blogService.loadBlogs();
-  }
+export class AppComponent {
+  title = 'BlogApp';
 }
