@@ -1,0 +1,35 @@
+<div class="blog-list">
+  <div
+    class="blog-card"
+    *ngFor="let blog of blogPreview"
+    [routerLink]="['/blog', blog.id]"
+  >
+    <div
+      class="blog-card-image"
+      [ngStyle]="{
+        'background-image':
+          'url(' +
+          (blog.headerImageUrl || 'https://via.placeholder.com/300x200') +
+          ')',
+      }"
+    ></div>
+    <div class="blog-card-content">
+      <h3 class="blog-card-title" [title]="blog.title">
+        {{ blog.title | slice: 0 : 50
+        }}{{ blog.title.length > 50 ? "..." : "" }}
+      </h3>
+      <p class="blog-card-description">
+        {{ blog.contentPreview | slice: 0 : 100
+        }}{{ blog.contentPreview.length > 100 ? "..." : "" }}
+      </p>
+    </div>
+    <div class="blog-card-footer">
+      <div class="author-info">
+        <div>
+          <p class="author-name">{{ blog.author }}</p>
+          <p class="blog-date">{{ blog.createdAt }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

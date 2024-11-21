@@ -1,9 +1,3 @@
-<div>
-  <h1 class="centered-heading">David's Blog</h1>
-
-  <div class="content" *ngIf="blogs$ | async as blogs">
-    @for (blog of blogs.data; track blog.id) {
-      <app-blog [blog]="blog"></app-blog>
-    }
-  </div>
-</div>
+<main>
+  <router-outlet></router-outlet>
+</main>
