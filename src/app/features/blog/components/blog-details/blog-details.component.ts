@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe, NgForOf, NgStyle, CommonModule } from '@angular/common';
 import { BlogService } from '../../services/blog.service';
+import { Blog } from '../../models/blog';
 
 @Component({
   selector: 'app-blog-details',
@@ -11,7 +12,7 @@ import { BlogService } from '../../services/blog.service';
   standalone: true,
 })
 export class BlogDetailsComponent implements OnInit {
-  blog = null;
+  blog!: Blog;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,7 +27,6 @@ export class BlogDetailsComponent implements OnInit {
         next: (data) => (this.blog = data),
         error: (err) => {
           console.error('Fehler beim Laden des Blogs:', err);
-          this.blog = null;
         },
       });
     }
