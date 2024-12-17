@@ -1,35 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DatePipe, NgForOf, NgStyle, CommonModule } from '@angular/common';
-import { BlogService } from '../../services/blog.service';
 import { Blog } from '../../models/blog';
+import { DatePipe, NgForOf, NgIf, NgStyle } from '@angular/common';
 
 @Component({
   selector: 'app-blog-details',
   templateUrl: './blog-details.component.html',
   styleUrls: ['./blog-details.component.scss'],
-  imports: [NgStyle, DatePipe, NgForOf, CommonModule],
   standalone: true,
+  imports: [NgIf, NgStyle, DatePipe, NgForOf],
 })
 export class BlogDetailsComponent implements OnInit {
   blog!: Blog;
 
   constructor(
     private route: ActivatedRoute,
-    private blogService: BlogService,
     private router: Router,
   ) {}
 
   ngOnInit() {
-    const blogId = this.route.snapshot.paramMap.get('id');
-    if (blogId) {
-      this.blogService.loadBlogById(+blogId).subscribe({
-        next: (data) => (this.blog = data),
-        error: (err) => {
-          console.error('Fehler beim Laden des Blogs:', err);
-        },
-      });
-    }
+    this.blog = this.route.snapshot.data['blog'];
   }
 
   navigateBack() {
