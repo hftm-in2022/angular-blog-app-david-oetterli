@@ -98,3 +98,28 @@
   align-items: center;
   height: 300px; /* oder volle Höhe, z.B. 100vh */
 }
+
+// STYLES FÜR DEN "LOAD MORE BLOGS" BUTTON
+.load-more-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* Abstand zum restlichen Inhalt */
+}
+
+.load-more-button {
+  transition:
+    transform 0.2s ease,
+    background-color 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05); /* Skalierung bei Hover */
+  }
+
+  &:active {
+    transform: scale(1); /* Rückkehr zur Normalgröße bei Klick */
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
