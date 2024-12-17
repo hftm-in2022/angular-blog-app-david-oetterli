@@ -39,3 +39,9 @@
     <mat-spinner></mat-spinner>
   </div>
 </ng-template>
+
+<div *ngIf="blogPreview.length < totalCount" class="load-more-container">
+  <button mat-raised-button class="load-more-button" (click)="loadMoreBlogs()">
+    Load more blogs
+  </button>
+</div>

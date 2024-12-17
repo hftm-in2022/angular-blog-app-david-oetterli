@@ -13,8 +13,13 @@ export class BlogService {
 
   constructor(private http: HttpClient) {}
 
-  loadBlogs(page = 0, pageSize = 10): Observable<BlogListResponse> {
-    const params = { page: page.toString(), pageSize: pageSize.toString() };
+  // Methode zum Laden der Blogs mit Unterstützung für Paginierung
+  loadBlogs(pageIndex = 0, pageSize = 10): Observable<BlogListResponse> {
+    const params: Record<string, string> = {
+      pageIndex: pageIndex.toString(),
+      pageSize: pageSize.toString(),
+    };
+
     return this.http.get<BlogListResponse>(this.apiUrl, { params });
   }
 
