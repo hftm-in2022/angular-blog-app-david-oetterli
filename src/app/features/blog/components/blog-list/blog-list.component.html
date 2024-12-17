@@ -1,4 +1,4 @@
-<div class="blog-list">
+<div *ngIf="blogPreview.length > 0; else loading" class="blog-list">
   <div
     class="blog-card"
     *ngFor="let blog of blogPreview"
@@ -27,9 +27,15 @@
       <div class="author-info">
         <div>
           <p class="author-name">{{ blog.author }}</p>
-          <p class="blog-date">{{ blog.createdAt }}</p>
+          <p class="blog-date">{{ blog.createdAt | date: "short" }}</p>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #loading>
+  <div class="loading-spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
