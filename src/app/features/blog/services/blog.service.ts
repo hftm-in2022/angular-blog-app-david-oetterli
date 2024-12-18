@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Blog } from '../models/blog';
-import { BlogListResponse } from '../models/blog-list-response';
+import { BlogPost, BlogPreview, CreateBlog } from '../models/blog.model';
+
+interface BlogResponse {
+  data: BlogPreview[];
+  totalCount: number;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -14,16 +18,27 @@ export class BlogService {
   constructor(private http: HttpClient) {}
 
   // Methode zum Laden der Blogs mit Unterstützung für Paginierung
-  loadBlogs(pageIndex = 0, pageSize = 10): Observable<BlogListResponse> {
+  getBlogPosts(pageIndex = 0, pageSize = 10): Observable<BlogResponse> {
     const params: Record<string, string> = {
       pageIndex: pageIndex.toString(),
       pageSize: pageSize.toString(),
     };
 
-    return this.http.get<BlogListResponse>(this.apiUrl, { params });
+    return this.http.get<BlogResponse>(this.apiUrl, { params });
   }
 
-  loadBlogById(id: number): Observable<Blog> {
-    return this.http.get<Blog>(`${this.apiUrl}/${id}`);
+  // Holt einen bestimmten Blogpost
+  getBlogPost(id: number): Observable<BlogPost> {
+    return this.http.get<BlogPost>(`${this.apiUrl}/${id}`);
+  }
+
+  // Erstellt einen neuen Blogpost
+  createBlogPost(blog: CreateBlog): Observable<BlogPost> {
+    return this.http.post<BlogPost>(`${this.apiUrl}`, blog);
+  }
+
+  // Löscht einen Blogpost
+  deleteBlogPost(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

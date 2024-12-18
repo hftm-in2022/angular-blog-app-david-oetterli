@@ -1,30 +1,20 @@
-import { inject } from '@angular/core';
-import { ResolveFn, Router, ActivatedRouteSnapshot } from '@angular/router';
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
+import { Observable, throwError } from 'rxjs';
 import { BlogService } from '../services/blog.service';
-import { Blog } from '../models/blog';
-import { catchError, of } from 'rxjs';
+import { BlogPost } from '../models/blog.model';
 
-export const BlogResolver: ResolveFn<Blog> = (
-  route: ActivatedRouteSnapshot,
-) => {
-  const blogService = inject(BlogService);
-  const router = inject(Router);
+@Injectable({
+  providedIn: 'root',
+})
+export class BlogResolver implements Resolve<BlogPost> {
+  constructor(private blogService: BlogService) {}
 
-  const blogId = route.paramMap.get('id');
-  if (!blogId) {
-    router
-      .navigate(['/blogs'])
-      .then(() => console.log('Navigation erfolgreich!'));
-    return of();
+  resolve(route: ActivatedRouteSnapshot): Observable<BlogPost> {
+    const blogId = route.paramMap.get('id');
+    if (blogId) {
+      return this.blogService.getBlogPost(Number(blogId));
+    }
+    return throwError(() => new Error('Blog ID nicht gefunden'));
   }
-
-  return blogService.loadBlogById(+blogId).pipe(
-    catchError((error) => {
-      console.error('Fehler beim Laden des Blogs:', error);
-      router
-        .navigate(['/blogs'])
-        .then(() => console.log('Navigation erfolgreich!'));
-      return of();
-    }),
-  );
-};
+}

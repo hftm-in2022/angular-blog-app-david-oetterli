@@ -1,30 +1,31 @@
-<div class="blog-details-container" *ngIf="blog; else loading">
+<div class="blog-details-container" *ngIf="blogPost; else loading">
   <div class="blog-header">
     <div
       class="blog-image"
       [ngStyle]="{
         'background-image':
           'url(' +
-          (blog.headerImageUrl || 'https://via.placeholder.com/1200x400') +
+          (blogPost.headerImageUrl ||
+            'https://picsum.photos/seed/' + blogPost.id + '/1200/400') +
           ')',
       }"
     ></div>
     <div class="blog-title-container">
-      <h1 class="blog-title">{{ blog.title }}</h1>
+      <h1 class="blog-title">{{ blogPost.title }}</h1>
       <div class="blog-meta">
-        <p class="blog-author">Author: {{ blog.author }}</p>
+        <p class="blog-author">Author: {{ blogPost.author }}</p>
         <p class="blog-date">
-          Created at: {{ blog.createdAt | date: "longDate" }}
+          Created at: {{ blogPost.createdAt | date: "longDate" }}
         </p>
       </div>
     </div>
   </div>
   <div class="blog-content">
-    <p>{{ blog.content }}</p>
+    <p>{{ blogPost.content }}</p>
   </div>
   <div class="blog-comments">
     <h3>Comments:</h3>
-    <div class="comment" *ngFor="let comment of blog.comments">
+    <div class="comment" *ngFor="let comment of blogPost.comments">
       <p>
         <strong>{{ comment.author }}</strong
         >: {{ comment.content }}

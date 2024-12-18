@@ -8,5 +8,11 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     body: req.body,
   });
 
-  return next(req);
+  const modifiedReq = req.clone({
+    setHeaders: {
+      'X-Correlation-Id': 'some-unique-correlation-id',
+    },
+  });
+
+  return next(modifiedReq);
 };
