@@ -1,36 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { BlogService } from '../../services/blog.service';
-import { MatCardModule } from '@angular/material/card';
-import { DatePipe, NgForOf, NgIf, NgStyle, SlicePipe } from '@angular/common';
+import { BlogPreview } from '../../models/blog-preview.model';
 import { Router, RouterLink } from '@angular/router';
-import { MatButton } from '@angular/material/button';
-import { BlogPreview } from '../../models/blog-preview';
+import { DatePipe, NgForOf, NgIf, NgStyle, SlicePipe } from '@angular/common';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-blog-list',
   templateUrl: './blog-list.component.html',
-  standalone: true,
+  styleUrls: ['./blog-list.component.scss'],
   imports: [
-    MatCardModule,
+    RouterLink,
     NgForOf,
     NgStyle,
-    RouterLink,
-    MatButton,
     SlicePipe,
     DatePipe,
-    NgIf,
     MatProgressSpinner,
-    FormsModule,
+    MatButton,
+    NgIf,
   ],
-  styleUrls: ['./blog-list.component.scss'],
+  standalone: true,
 })
 export class BlogListComponent implements OnInit {
   blogPreview: BlogPreview[] = [];
   currentPage = 0;
   pageSize = 10;
   totalCount = 0;
+  isLoading = false;
 
   constructor(
     private blogService: BlogService,
@@ -43,39 +40,49 @@ export class BlogListComponent implements OnInit {
 
   // Methode zum Laden der Blogs
   loadBlogs() {
-    this.blogService
-      .loadBlogs(this.currentPage, this.pageSize)
-      .subscribe((response) => {
+    if (this.isLoading) return; // Verhindert doppelte Anfragen
+    this.isLoading = true;
+
+    this.blogService.getBlogPosts(this.currentPage, this.pageSize).subscribe(
+      (response) => {
         this.blogPreview = response.data;
         this.totalCount = response.totalCount;
-      });
+        this.isLoading = false;
+      },
+      (error) => {
+        console.error('Fehler beim Laden der Blogs:', error);
+        this.isLoading = false;
+      },
+    );
   }
 
   // Methode zum Laden weiterer Blogs, die die aktuellen Blogs nicht überschreiben
   loadMoreBlogs() {
-    if (this.blogPreview.length < this.totalCount) {
-      this.currentPage++; // Gehe zur nächsten Seite
+    if (this.blogPreview.length < this.totalCount && !this.isLoading) {
+      this.currentPage++;
+      this.isLoading = true;
 
-      // Anfrage für die nächste Seite
-      this.blogService
-        .loadBlogs(this.currentPage, this.pageSize)
-        .subscribe((response) => {
-          // Füge nur neue Blogs hinzu, die noch nicht geladen wurden
+      this.blogService.getBlogPosts(this.currentPage, this.pageSize).subscribe(
+        (response) => {
           const newBlogs = response.data.filter(
             (blog) =>
               !this.blogPreview.some(
                 (existingBlog) => existingBlog.id === blog.id,
               ),
           );
-
-          // Füge die neuen Blogs zur bestehenden Liste hinzu
           this.blogPreview = [...this.blogPreview, ...newBlogs];
-        });
+          this.isLoading = false;
+        },
+        (error) => {
+          console.error('Fehler beim Laden weiterer Blogs:', error);
+          this.isLoading = false;
+        },
+      );
     }
   }
 
   // Methode zum Navigieren zu einem Detail-Blog
   navigateToDetail(blogId: number) {
-    this.router.navigate(['/blogs', blogId]);
+    this.router.navigate(['/blog', blogId]);
   }
 }

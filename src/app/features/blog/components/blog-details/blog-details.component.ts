@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Blog } from '../../models/blog';
+import { BlogService } from '../../services/blog.service';
+import { BlogPost } from '../../models/blog.model';
 import { DatePipe, NgForOf, NgIf, NgStyle } from '@angular/common';
 
 @Component({
@@ -11,17 +12,29 @@ import { DatePipe, NgForOf, NgIf, NgStyle } from '@angular/common';
   imports: [NgIf, NgStyle, DatePipe, NgForOf],
 })
 export class BlogDetailsComponent implements OnInit {
-  blog!: Blog;
+  blogPost!: BlogPost;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private blogService: BlogService,
   ) {}
 
   ngOnInit() {
-    this.blog = this.route.snapshot.data['blog'];
+    const blogId = this.route.snapshot.paramMap.get('id');
+    if (blogId) {
+      this.loadBlogPost(blogId);
+    }
   }
 
+  // Lade einen einzelnen Blogpost basierend auf der ID
+  loadBlogPost(id: string) {
+    this.blogService.getBlogPost(Number(id)).subscribe((post) => {
+      this.blogPost = post;
+    });
+  }
+
+  // Navigiere zurück zur Blog-Übersicht
   navigateBack() {
     this.router.navigate(['/blogs']);
   }
