@@ -18,4 +18,11 @@ export const routes: Routes = [
       ).then((c) => c.BlogDetailsComponent),
     resolve: { blog: BlogResolver },
   },
+  {
+    path: 'create-new-blog',
+    loadComponent: () =>
+      import(
+        './features/blog/components/blog-create/blog-create.component'
+      ).then((c) => c.BlogCreateComponent),
+  },
 ];
