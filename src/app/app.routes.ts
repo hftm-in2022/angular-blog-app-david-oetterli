@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { BlogResolver } from './features/blog/resolvers/blog.resolver';
+import { isAuthenticatedGuard } from './core/auth/is-authenticated.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/blogs', pathMatch: 'full' },
@@ -24,5 +25,6 @@ export const routes: Routes = [
       import(
         './features/blog/components/blog-create/blog-create.component'
       ).then((c) => c.BlogCreateComponent),
+    canActivate: [isAuthenticatedGuard],
   },
 ];

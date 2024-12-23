@@ -3,9 +3,18 @@
     <h1>BlogApp</h1>
   </div>
   <div class="buttons">
-    <button class="create-blog-button" (click)="onCreateNewBlogClick()">
-      Create New Blog
-    </button>
-    <button class="login-button" (click)="onLoginClick()">Login</button>
+    @if (isAuthenticated()) {
+      <button class="create-blog-button" (click)="onCreateNewBlogClick()">
+        Create New Blog
+      </button>
+    }
+    <div>
+      @if (!isAuthenticated()) {
+        <button class="login-button" (click)="onLoginClick()">Login</button>
+      }
+      @if (isAuthenticated()) {
+        <button class="login-button" (click)="onLogoutClick()">Logout</button>
+      }
+    </div>
   </div>
 </header>
