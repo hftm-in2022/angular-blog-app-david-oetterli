@@ -21,8 +21,6 @@ export interface BlogPreview {
 export interface CreateBlog {
   title: string;
   content: string;
-  author: string;
-  headerImageUrl?: string;
 }
 
 export interface Comment {
