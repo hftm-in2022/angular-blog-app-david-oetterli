@@ -31,22 +31,17 @@ export class BlogCreateComponent {
     });
   }
 
-  onSubmit(): void {
-    // Überprüfen, ob das Formular gültig ist
-    if (this.blogForm.valid) {
-      const blogData = this.blogForm.value;
-
-      // Sende die Blog-Daten an den Service
-      this.blogService.createBlogPost(blogData).subscribe({
-        next: () => {
-          console.log('Blog erfolgreich erstellt!');
-          this.router.navigate(['/blogs']); // Navigiere zurück zur Blogübersicht
-        },
-        error: (error) => {
-          console.error('Fehler beim Erstellen des Blogs:', error);
-        },
-      });
-    }
+  onSubmit() {
+    console.log('Blog-Daten:', this.blogForm.value);
+    this.blogService.createBlogPost(this.blogForm.value).subscribe({
+      next: (response) => {
+        console.log('Erfolgreich erstellt:', response);
+        this.router.navigate(['/blogs']);
+      },
+      error: (err) => {
+        console.error('Fehler beim Erstellen des Blogs:', err);
+      },
+    });
   }
 
   protected readonly FormGroup = FormGroup;
