@@ -1,0 +1,65 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <a
+        mat-list-item
+        (click)="navigateBack()"
+        (keydown)="navigateBack()"
+        tabindex="0"
+        >Overview</a
+      >
+      <a
+        mat-list-item
+        *ngIf="isAuthenticated()"
+        (click)="onCreateNewBlogClick()"
+        (keydown)="onCreateNewBlogClick()"
+        tabindex="0"
+        >Create new Blog</a
+      >
+      <a
+        mat-list-item
+        *ngIf="!isAuthenticated()"
+        (click)="onLoginClick()"
+        (keydown)="onLoginClick()"
+        tabindex="0"
+        >Login</a
+      >
+      <a
+        mat-list-item
+        *ngIf="isAuthenticated()"
+        (click)="onLogoutClick()"
+        (keydown)="onLogoutClick()"
+        tabindex="0"
+        >Logout</a
+      >
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        *ngIf="isHandset$ | async"
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        (keydown)="drawer.toggle()"
+        tabindex="0"
+      >
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>BlogApp</span>
+      <span *ngIf="(isHandset$ | async) === false" class="username">{{
+        userName()?.toString()
+      }}</span>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
