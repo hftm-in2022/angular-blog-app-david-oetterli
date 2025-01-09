@@ -64,6 +64,7 @@
       cursor: pointer;
       text-align: center;
       transition: background-color 0.3s ease;
+      margin-top: 10px;
 
       &:hover {
         background-color: #0056b3;
@@ -74,5 +75,24 @@
         cursor: not-allowed;
       }
     }
+  }
+}
+/* Ladespinner */
+.spinner {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #007bff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

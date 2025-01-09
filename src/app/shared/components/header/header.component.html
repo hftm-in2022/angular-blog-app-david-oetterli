@@ -4,6 +4,7 @@
   </div>
   <div class="buttons">
     @if (isAuthenticated()) {
+      <div>Hello {{ userName()?.toString() }}!</div>
       <button class="create-blog-button" (click)="onCreateNewBlogClick()">
         Create New Blog
       </button>

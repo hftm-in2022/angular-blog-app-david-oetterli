@@ -18,6 +18,7 @@ import { NgIf } from '@angular/common';
 })
 export class BlogCreateComponent {
   blogForm: FormGroup;
+  isSubmitting = false; // Status für Ladespinner
 
   constructor(
     private formBuilder: FormBuilder,
@@ -32,7 +33,11 @@ export class BlogCreateComponent {
   }
 
   onSubmit() {
+    if (this.blogForm.invalid) return;
+
+    this.isSubmitting = true; // Spinner aktivieren
     console.log('Blog-Daten:', this.blogForm.value);
+
     this.blogService.createBlogPost(this.blogForm.value).subscribe({
       next: (response) => {
         console.log('Erfolgreich erstellt:', response);
@@ -41,7 +46,14 @@ export class BlogCreateComponent {
       error: (err) => {
         console.error('Fehler beim Erstellen des Blogs:', err);
       },
+      complete: () => {
+        this.isSubmitting = false; // Spinner deaktivieren
+      },
     });
+  }
+
+  onReset() {
+    this.blogForm.reset(); // Formular zurücksetzen
   }
 
   protected readonly FormGroup = FormGroup;

@@ -37,14 +37,27 @@
       </small>
     </div>
 
-    <!-- Absenden-Button -->
+    <!-- Buttons -->
     <div class="form-group">
       <button
         type="submit"
         class="btn btn-primary"
-        [disabled]="blogForm.invalid"
+        [disabled]="blogForm.invalid || isSubmitting"
       >
-        Blog erstellen
+        <ng-container *ngIf="!isSubmitting; else loading">
+          Create Blog
+        </ng-container>
+        <ng-template #loading>
+          <span class="spinner"></span>
+        </ng-template>
+      </button>
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="onReset()"
+        [disabled]="isSubmitting"
+      >
+        Reset Form
       </button>
     </div>
   </form>
