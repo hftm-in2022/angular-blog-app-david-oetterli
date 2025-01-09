@@ -28,8 +28,8 @@ import { Router, RouterOutlet } from '@angular/router';
   ],
 })
 export class SidebarComponent {
-  protected userName = signal<string | null>(null);
-  protected isAuthenticated = signal<boolean>(false);
+  userName = signal<string | null>(null);
+  isAuthenticated = signal<boolean>(false);
   private breakpointObserver = inject(BreakpointObserver);
 
   constructor(
