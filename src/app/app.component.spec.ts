@@ -16,7 +16,10 @@ describe('SidebarComponent', () => {
       checkAuth: jasmine
         .createSpy('checkAuth')
         .and.returnValue(of({ isAuthenticated: true })),
-      userData$: of({ userData: { preferred_username: 'testuser' } }),
+      userData$: of({
+        userData: { preferred_username: 'testuser' },
+        allUserData: [], // Füge dieses Feld hinzu, um den Typ `UserDataResult` zu erfüllen
+      }),
       authorize: jasmine.createSpy('authorize'),
       logoff: jasmine.createSpy('logoff').and.returnValue(of(true)),
     };
