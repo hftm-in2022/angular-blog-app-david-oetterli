@@ -3,7 +3,6 @@ import { BlogResolver } from './features/blog/resolvers/blog.resolver';
 import { isAuthenticatedGuard } from './core/auth/is-authenticated.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/blogs', pathMatch: 'full' },
   {
     path: 'blogs',
     loadComponent: () =>
@@ -27,4 +26,5 @@ export const routes: Routes = [
       ).then((c) => c.BlogCreateComponent),
     canActivate: [isAuthenticatedGuard],
   },
+  { path: '**', redirectTo: '/blogs', pathMatch: 'full' },
 ];
