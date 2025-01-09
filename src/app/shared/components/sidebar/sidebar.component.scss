@@ -1,0 +1,19 @@
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  margin-bottom: 20px;
+}
+
+.toolbar-content {
+  display: flex;
+  justify-content: space-between; /* Verteilte Anordnung */
+  width: 100%;
+}
+.sidenav {
+  margin-top: 20px;
+  width: 200px;
+}
+.username {
+  margin-left: auto; /* Schiebt den Benutzernamen nach rechts */
+}
