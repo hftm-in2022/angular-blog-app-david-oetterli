@@ -3,13 +3,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BlogService } from '../../services/blog.service';
 import { BlogPost } from '../../models/blog.model';
 import { DatePipe, NgForOf, NgIf, NgStyle } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-blog-details',
   templateUrl: './blog-details.component.html',
   styleUrls: ['./blog-details.component.scss'],
   standalone: true,
-  imports: [NgIf, NgStyle, DatePipe, NgForOf],
+  imports: [NgIf, NgStyle, DatePipe, NgForOf, TranslatePipe],
 })
 export class BlogDetailsComponent implements OnInit {
   blogPost!: BlogPost;

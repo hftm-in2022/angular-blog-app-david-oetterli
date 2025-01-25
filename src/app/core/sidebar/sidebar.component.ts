@@ -1,15 +1,15 @@
 import { Component, inject, signal } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { Router, RouterOutlet } from '@angular/router';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { map, Observable, shareReplay } from 'rxjs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { Router, RouterOutlet } from '@angular/router';
+import { AsyncPipe, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-sidebar',
@@ -25,17 +25,24 @@ import { Router, RouterOutlet } from '@angular/router';
     AsyncPipe,
     RouterOutlet,
     NgIf,
+    TranslatePipe,
   ],
 })
 export class SidebarComponent {
   userName = signal<string | null>(null);
   isAuthenticated = signal<boolean>(false);
+  currentLanguage: string;
+
   private breakpointObserver = inject(BreakpointObserver);
+  languages = ['en', 'de'];
 
   constructor(
     private oidcSecureService: OidcSecurityService,
     private router: Router,
+    private translate: TranslateService,
   ) {
+    //this.currentLanguage = this.translate.getDefaultLang();
+
     this.oidcSecureService.checkAuth().subscribe(({ isAuthenticated }) => {
       this.isAuthenticated.set(isAuthenticated);
 
@@ -47,6 +54,20 @@ export class SidebarComponent {
         this.userName.set(null);
       }
     });
+
+    this.translate.addLangs(this.languages);
+    this.translate.setDefaultLang('en');
+    this.translate.use('en');
+    this.currentLanguage = this.translate.getDefaultLang();
+  }
+
+  toggleLanguage() {
+    this.currentLanguage = this.currentLanguage === 'en' ? 'de' : 'en';
+    this.translate.use(this.currentLanguage);
+  }
+
+  changeLanguage(lang: string) {
+    this.translate.use(lang);
   }
 
   onLoginClick() {

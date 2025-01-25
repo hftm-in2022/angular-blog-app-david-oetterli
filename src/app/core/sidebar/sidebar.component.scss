@@ -17,3 +17,14 @@
 .username {
   margin-left: auto; /* Schiebt den Benutzernamen nach rechts */
 }
+.language-switcher {
+  position: absolute;
+  bottom: 16px;
+  width: 100%;
+  text-align: center;
+
+  button {
+    width: calc(100% - 32px); // Abstand von den Seiten
+    margin: 0 16px;
+  }
+}
