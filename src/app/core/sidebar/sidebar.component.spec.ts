@@ -61,12 +61,14 @@ describe('SidebarComponent', () => {
     fixture.detectChanges();
   });
 
-  it('sollte den korrekten Titel anzeigen', () => {
-    const toolbar = fixture.debugElement.query(By.css('mat-toolbar span'));
-    expect(toolbar.nativeElement.textContent.trim()).toBe('BlogApp');
-  });
+  it('sollte den korrekten Titel anzeigen', async () => {
+    const translateService = TestBed.inject(TranslateService);
+    translateService.setDefaultLang('en');
+    translateService.use('en'); // Sprache initialisieren
 
-  it('sollte den korrekten Titel anzeigen', () => {
+    await fixture.whenStable(); // Warten auf Angulars Change Detection
+    fixture.detectChanges(); // DOM aktualisieren
+
     const toolbar = fixture.debugElement.query(By.css('mat-toolbar span'));
     expect(toolbar).toBeTruthy(); // Sicherstellen, dass das Element existiert
     if (toolbar) {
