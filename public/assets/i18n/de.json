@@ -1,0 +1,23 @@
+{
+  "HELLO": "Hallo Welt!",
+  "LANGUAGE": "Sprache",
+  "OVERVIEW": "Übersicht",
+  "CREATE_NEW_BLOG": "Neuen Blog erstellen",
+  "LOGIN": "Einloggen",
+  "LOGOUT": "Ausloggen",
+  "MENU": "Menü",
+  "TITLE": "Titel",
+  "ENTER_TITLE": "Gib den Titel ein",
+  "TITLE_REQUIRED": "Titel ist erforderlich.",
+  "TITLE_MIN_LENGTH": "Titel muss mindestens 3 Zeichen lang sein.",
+  "CONTENT": "Inhalt",
+  "ENTER_CONTENT": "Gib den Inhalt ein",
+  "CONTENT_REQUIRED": "Inhalt ist erforderlich.",
+  "CONTENT_MIN_LENGTH": "Inhalt muss mindestens 10 Zeichen lang sein.",
+  "CREATE_BLOG": "Blog erstellen",
+  "RESET_FORM": "Formular zurücksetzen",
+  "AUTHOR": "Autor",
+  "CREATED_AT": "Erstellt am",
+  "COMMENTS": "Kommentare",
+  "BACK_TO_OVERVIEW": "Zurück zur Übersicht"
+}

@@ -8,12 +8,13 @@ import {
 import { BlogService } from '../../services/blog.service';
 import { Router } from '@angular/router';
 import { NgIf } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-blog-create',
   templateUrl: './blog-create.component.html',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule, NgIf, TranslatePipe],
   styleUrls: ['./blog-create.component.scss'],
 })
 export class BlogCreateComponent {

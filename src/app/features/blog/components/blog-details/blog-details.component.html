@@ -13,9 +13,12 @@
     <div class="blog-title-container">
       <h1 class="blog-title">{{ blogPost.title }}</h1>
       <div class="blog-meta">
-        <p class="blog-author">Author: {{ blogPost.author }}</p>
+        <p class="blog-author">
+          {{ "AUTHOR" | translate }}: {{ blogPost.author }}
+        </p>
         <p class="blog-date">
-          Created at: {{ blogPost.createdAt | date: "longDate" }}
+          {{ "CREATED_AT" | translate }}:
+          {{ blogPost.createdAt | date: "longDate" }}
         </p>
       </div>
     </div>
@@ -24,7 +27,7 @@
     <p>{{ blogPost.content }}</p>
   </div>
   <div class="blog-comments">
-    <h3>Comments:</h3>
+    <h3>{{ "COMMENTS" | translate }}</h3>
     <div class="comment" *ngFor="let comment of blogPost.comments">
       <p>
         <strong>{{ comment.author }}</strong
@@ -33,7 +36,9 @@
       <p class="comment-date">{{ comment.createdAt | date: "short" }}</p>
     </div>
   </div>
-  <button class="back-button" (click)="navigateBack()">Back to Overview</button>
+  <button class="back-button" (click)="navigateBack()">
+    {{ "BACK_TO_OVERVIEW" | translate }}
+  </button>
 </div>
 
 <ng-template #loading>
