@@ -1,13 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BlogCreateComponent } from './blog-create.component'; // Import der Standalone-Komponente
-// import { Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing'; // HttpClientTestingModule importieren
 import { isAuthenticatedGuard } from '../../../../core/auth/is-authenticated.guard';
-import { BlogService } from '../../services/blog.service'; // Falls du BlogService auch brauchst
+import { BlogService } from '../../services/blog.service'; // Falls BlogService verwendet wird
+import { TranslateModule, TranslateStore } from '@ngx-translate/core';
 
 // Mocking des OidcSecurityService
 class MockOidcSecurityService {
@@ -26,9 +26,7 @@ const mockIsAuthenticatedGuard = () => {
 };
 
 describe('BlogCreateComponent', () => {
-  // let component: BlogCreateComponent;
   let fixture: ComponentFixture<BlogCreateComponent>;
-  // let router: Router;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -36,17 +34,17 @@ describe('BlogCreateComponent', () => {
         ReactiveFormsModule,
         BlogCreateComponent,
         HttpClientTestingModule,
-      ], // HttpClientTestingModule importieren
+        TranslateModule.forRoot(), // Übersetzungen initialisieren
+      ],
       providers: [
         { provide: OidcSecurityService, useClass: MockOidcSecurityService }, // Mock des Authentifizierungsdienstes
         { provide: isAuthenticatedGuard, useFactory: mockIsAuthenticatedGuard }, // Mock des Guards
         BlogService, // BlogService hier angeben
+        TranslateStore, // WICHTIG: TranslateStore bereitstellen
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(BlogCreateComponent);
-    // component = fixture.componentInstance;
-    // router = TestBed.inject(Router);
     fixture.detectChanges();
   });
 
@@ -54,13 +52,13 @@ describe('BlogCreateComponent', () => {
     const titleInput = fixture.debugElement.query(
       By.css('input[formControlName="title"]'),
     );
-    expect(titleInput).toBeTruthy();
+    expect(titleInput).toBeTruthy(); // Sicherstellen, dass das Title-Feld existiert
   });
 
   it('sollte ein Inhalt-Eingabefeld haben', () => {
     const contentInput = fixture.debugElement.query(
       By.css('textarea[formControlName="content"]'),
     );
-    expect(contentInput).toBeTruthy();
+    expect(contentInput).toBeTruthy(); // Sicherstellen, dass das Content-Feld existiert
   });
 });
