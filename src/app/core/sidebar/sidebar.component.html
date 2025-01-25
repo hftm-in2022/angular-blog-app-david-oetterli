@@ -58,9 +58,7 @@
         (keydown)="drawer.toggle()"
         tabindex="0"
       >
-        <mat-icon aria-label="Side nav toggle icon">{{
-          "MENU" | translate
-        }}</mat-icon>
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span>BlogApp</span>
       <span *ngIf="(isHandset$ | async) === false" class="username">{{
