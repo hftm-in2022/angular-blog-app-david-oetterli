@@ -6,7 +6,11 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import {
+  TranslateModule,
+  TranslateService,
+  TranslateStore,
+} from '@ngx-translate/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { of } from 'rxjs';
@@ -47,12 +51,13 @@ describe('SidebarComponent', () => {
         MatIconModule,
         HttpClientTestingModule,
         NoopAnimationsModule,
-        TranslateModule.forRoot(),
+        TranslateModule.forRoot(), // Mock-Übersetzungen
       ],
       providers: [
         { provide: BreakpointObserver, useClass: MockBreakpointObserver },
         { provide: OidcSecurityService, useClass: MockOidcSecurityService },
         { provide: Router, useClass: MockRouter }, // Mock für den Router
+        TranslateStore, // WICHTIG: TranslateStore hinzufügen
       ],
     }).compileComponents();
 
