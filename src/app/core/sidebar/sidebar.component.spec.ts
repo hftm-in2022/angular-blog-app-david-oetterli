@@ -4,19 +4,22 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { HttpClientTestingModule } from '@angular/common/http/testing'; // Verwendet HttpClientTestingModule statt HttpClientModule
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { TranslateModule, TranslateService } from '@ngx-translate/core'; // Hinzugefügt
-import { TranslateLoader } from '@ngx-translate/core';
-import { TranslateFakeLoader } from '@ngx-translate/core';
-import { By } from '@angular/platform-browser';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { OidcSecurityService, StsConfigLoader } from 'angular-auth-oidc-client';
-import { Observable, of } from 'rxjs';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { of } from 'rxjs';
+import { By } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+
+class MockRouter {
+  navigate = jasmine.createSpy('navigate');
+}
 
 class MockBreakpointObserver {
-  observe(): Observable<{ matches: boolean }> {
-    return of({ matches: false });
+  observe() {
+    return of({ matches: false }); // Simuliert ein Desktop-Gerät
   }
 }
 
@@ -24,13 +27,15 @@ class MockOidcSecurityService {
   checkAuth() {
     return of({ isAuthenticated: false });
   }
-  getAccessToken(): Observable<string> {
-    return of('');
+  logoff() {
+    return of({});
   }
 }
 
 describe('SidebarComponent', () => {
+  let component: SidebarComponent;
   let fixture: ComponentFixture<SidebarComponent>;
+  let translateService: TranslateService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -40,39 +45,57 @@ describe('SidebarComponent', () => {
         MatSidenavModule,
         MatListModule,
         MatIconModule,
-        HttpClientTestingModule, // Ersetzt HttpClientModule
+        HttpClientTestingModule,
         NoopAnimationsModule,
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useClass: TranslateFakeLoader, // Mock-Loader für Übersetzungen
-          },
-        }),
+        TranslateModule.forRoot(),
       ],
       providers: [
         { provide: BreakpointObserver, useClass: MockBreakpointObserver },
         { provide: OidcSecurityService, useClass: MockOidcSecurityService },
-        { provide: StsConfigLoader, useValue: {} },
-        TranslateService, // Übersetzungsdienst
+        { provide: Router, useClass: MockRouter }, // Mock für den Router
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SidebarComponent);
+    component = fixture.componentInstance;
+    translateService = TestBed.inject(TranslateService);
+
+    // Übersetzungssprache initialisieren
+    translateService.setDefaultLang('en');
+    translateService.use('en');
     fixture.detectChanges();
   });
 
-  it('sollte den korrekten Titel anzeigen', async () => {
-    const translateService = TestBed.inject(TranslateService);
-    translateService.setDefaultLang('en');
-    translateService.use('en'); // Sprache initialisieren
+  it('sollte die Komponente erstellen', () => {
+    expect(component).toBeTruthy();
+  });
 
-    await fixture.whenStable(); // Warten auf Angulars Change Detection
-    fixture.detectChanges(); // DOM aktualisieren
-
+  it('sollte den korrekten Titel anzeigen', () => {
     const toolbar = fixture.debugElement.query(By.css('mat-toolbar span'));
-    expect(toolbar).toBeTruthy(); // Sicherstellen, dass das Element existiert
-    if (toolbar) {
-      expect(toolbar.nativeElement.textContent.trim()).toBe('BlogApp');
-    }
+    expect(toolbar).toBeTruthy(); // Sicherstellen, dass das Toolbar-Element existiert
+    expect(toolbar.nativeElement.textContent.trim()).toBe('BlogApp');
+  });
+
+  it('sollte die Sprache wechseln können', () => {
+    component.currentLanguage = 'en';
+    component.toggleLanguage();
+    expect(component.currentLanguage).toBe('de');
+    expect(translateService.currentLang).toBe('de');
+
+    component.toggleLanguage();
+    expect(component.currentLanguage).toBe('en');
+    expect(translateService.currentLang).toBe('en');
+  });
+
+  it('sollte korrekt zur Blog-Erstellungsseite navigieren', () => {
+    const router = TestBed.inject(Router); // Mock-Router abrufen
+    component.onCreateNewBlogClick();
+    expect(router.navigate).toHaveBeenCalledWith(['/create-new-blog']);
+  });
+
+  it('sollte korrekt zur Blog-Übersichtsseite navigieren', () => {
+    const router = TestBed.inject(Router); // Mock-Router abrufen
+    component.navigateBack();
+    expect(router.navigate).toHaveBeenCalledWith(['/blogs']);
   });
 });
