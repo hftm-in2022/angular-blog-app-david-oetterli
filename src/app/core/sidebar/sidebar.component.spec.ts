@@ -4,8 +4,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { HttpClientModule } from '@angular/common/http';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations'; // Hinzugefügt
+import { HttpClientTestingModule } from '@angular/common/http/testing'; // Verwendet HttpClientTestingModule statt HttpClientModule
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateModule, TranslateService } from '@ngx-translate/core'; // Hinzugefügt
+import { TranslateLoader } from '@ngx-translate/core';
+import { TranslateFakeLoader } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { OidcSecurityService, StsConfigLoader } from 'angular-auth-oidc-client';
@@ -27,7 +30,6 @@ class MockOidcSecurityService {
 }
 
 describe('SidebarComponent', () => {
-  // let component: SidebarComponent;
   let fixture: ComponentFixture<SidebarComponent>;
 
   beforeEach(async () => {
@@ -38,23 +40,37 @@ describe('SidebarComponent', () => {
         MatSidenavModule,
         MatListModule,
         MatIconModule,
-        HttpClientModule,
-        NoopAnimationsModule, // Hinzugefügt
+        HttpClientTestingModule, // Ersetzt HttpClientModule
+        NoopAnimationsModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useClass: TranslateFakeLoader, // Mock-Loader für Übersetzungen
+          },
+        }),
       ],
       providers: [
         { provide: BreakpointObserver, useClass: MockBreakpointObserver },
         { provide: OidcSecurityService, useClass: MockOidcSecurityService },
         { provide: StsConfigLoader, useValue: {} },
+        TranslateService, // Übersetzungsdienst
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SidebarComponent);
-    // component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('sollte den korrekten Titel anzeigen', () => {
     const toolbar = fixture.debugElement.query(By.css('mat-toolbar span'));
     expect(toolbar.nativeElement.textContent.trim()).toBe('BlogApp');
+  });
+
+  it('sollte den korrekten Titel anzeigen', () => {
+    const toolbar = fixture.debugElement.query(By.css('mat-toolbar span'));
+    expect(toolbar).toBeTruthy(); // Sicherstellen, dass das Element existiert
+    if (toolbar) {
+      expect(toolbar.nativeElement.textContent.trim()).toBe('BlogApp');
+    }
   });
 });
