@@ -14,12 +14,8 @@ import {
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { of } from 'rxjs';
-import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-
-class MockRouter {
-  navigate = jasmine.createSpy('navigate');
-}
+import { By } from '@angular/platform-browser';
 
 class MockBreakpointObserver {
   observe() {
@@ -34,6 +30,10 @@ class MockOidcSecurityService {
   logoff() {
     return of({});
   }
+}
+
+class MockRouter {
+  navigate = jasmine.createSpy('navigate');
 }
 
 describe('SidebarComponent', () => {
@@ -51,13 +51,13 @@ describe('SidebarComponent', () => {
         MatIconModule,
         HttpClientTestingModule,
         NoopAnimationsModule,
-        TranslateModule.forRoot(), // Mock-Übersetzungen
+        TranslateModule.forRoot(),
       ],
       providers: [
         { provide: BreakpointObserver, useClass: MockBreakpointObserver },
         { provide: OidcSecurityService, useClass: MockOidcSecurityService },
-        { provide: Router, useClass: MockRouter }, // Mock für den Router
-        TranslateStore, // WICHTIG: TranslateStore hinzufügen
+        { provide: Router, useClass: MockRouter },
+        TranslateStore, // TranslateStore hinzugefügt
       ],
     }).compileComponents();
 
@@ -93,13 +93,13 @@ describe('SidebarComponent', () => {
   });
 
   it('sollte korrekt zur Blog-Erstellungsseite navigieren', () => {
-    const router = TestBed.inject(Router); // Mock-Router abrufen
+    const router = TestBed.inject(Router);
     component.onCreateNewBlogClick();
     expect(router.navigate).toHaveBeenCalledWith(['/create-new-blog']);
   });
 
   it('sollte korrekt zur Blog-Übersichtsseite navigieren', () => {
-    const router = TestBed.inject(Router); // Mock-Router abrufen
+    const router = TestBed.inject(Router);
     component.navigateBack();
     expect(router.navigate).toHaveBeenCalledWith(['/blogs']);
   });
