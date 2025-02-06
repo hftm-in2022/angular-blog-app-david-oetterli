@@ -44,6 +44,7 @@ export class BlogListComponent implements OnInit {
     this.isLoading = true;
 
     this.blogService.getBlogPosts(this.currentPage, this.pageSize).subscribe(
+      // memory Leak
       (response) => {
         this.blogPreview = response.data;
         this.totalCount = response.totalCount;
@@ -83,6 +84,7 @@ export class BlogListComponent implements OnInit {
 
   // Methode zum Navigieren zu einem Detail-Blog
   navigateToDetail(blogId: number) {
+    // wird nicht mehr verwendet
     this.router.navigate(['/blog', blogId]);
   }
 }

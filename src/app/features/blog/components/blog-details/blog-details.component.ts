@@ -15,13 +15,13 @@ export class BlogDetailsComponent implements OnInit {
   blogPost!: BlogPost;
 
   constructor(
-    private route: ActivatedRoute,
+    private route: ActivatedRoute, // inject methode anstelle constructor injection
     private router: Router,
     private blogService: BlogService,
   ) {}
 
   ngOnInit() {
-    const blogId = this.route.snapshot.paramMap.get('id');
+    const blogId = this.route.snapshot.paramMap.get('id'); // withComponentInputBinding setzt automatisch ein input mit dem namen blob auf die Komponente
     if (blogId) {
       this.loadBlogPost(blogId);
     }

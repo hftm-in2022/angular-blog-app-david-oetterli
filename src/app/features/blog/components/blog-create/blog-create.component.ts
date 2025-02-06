@@ -5,7 +5,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { BlogService } from '../../services/blog.service';
+import { BlogService } from '../../services/blog.service'; // features sollten isoliert sein und sich nicht services sharen...
 import { Router } from '@angular/router';
 import { NgIf } from '@angular/common';
 
@@ -39,12 +39,13 @@ export class BlogCreateComponent {
     console.log('Blog-Daten:', this.blogForm.value);
 
     this.blogService.createBlogPost(this.blogForm.value).subscribe({
+      // warum hier subscribe , subscribe ohne takeuntil, Memory Leak
       next: (response) => {
         console.log('Erfolgreich erstellt:', response);
         this.router.navigate(['/blogs']);
       },
       error: (err) => {
-        console.error('Fehler beim Erstellen des Blogs:', err);
+        console.error('Fehler beim Erstellen des Blogs:', err); // soll hier nichts mehr passieren in einem Fehler?
       },
       complete: () => {
         this.isSubmitting = false; // Spinner deaktivieren
@@ -53,6 +54,7 @@ export class BlogCreateComponent {
   }
 
   onReset() {
+    // besser button type reset verwenden
     this.blogForm.reset(); // Formular zurücksetzen
   }
 

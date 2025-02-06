@@ -15,6 +15,6 @@ export class BlogResolver implements Resolve<BlogPost> {
     if (blogId) {
       return this.blogService.getBlogPost(Number(blogId));
     }
-    return throwError(() => new Error('Blog ID nicht gefunden'));
+    return throwError(() => new Error('Blog ID nicht gefunden')); // fall tritt nie ein, da sonst die route nicht matched
   }
 }
